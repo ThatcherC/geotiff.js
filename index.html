@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Geotiff.js : Read raw data from GeoTIFF files.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Geotiff.js</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/constantinius/geotiff.js">View on GitHub</a>
+
+          <h1 id="project_title">Geotiff.js</h1>
+          <h2 id="project_tagline">Read raw data from GeoTIFF files.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/constantinius/geotiff.js/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/constantinius/geotiff.js/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="geotiffjs" class="anchor" href="#geotiffjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>geotiff.js</h1>
+
+<p><a href="https://travis-ci.org/constantinius/geotiff.js"><img src="https://travis-ci.org/constantinius/geotiff.js.svg" alt="Build Status"></a> <a href="https://www.versioneye.com/user/projects/566af91d4e049b0041000083"><img src="https://www.versioneye.com/user/projects/566af91d4e049b0041000083/badge.svg?style=flat" alt="Dependency Status"></a></p>
+
+<p>Read raw data from GeoTIFF files.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>To setup the repository do the following steps:</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># clone repo</span>
+git clone https://github.com/constantinius/geotiff.js.git
+<span class="pl-c1">cd</span> geotiff.js/
+
+<span class="pl-c"># install development dependencies</span>
+npm install -g grunt-cli
+npm install</pre></div>
+
+<h2>
+<a id="testing-and-building" class="anchor" href="#testing-and-building" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing and Building</h2>
+
+<p>To test the library (using PhantomJS, karma, mocha and chai) do the following:</p>
+
+<div class="highlight highlight-source-shell"><pre>grunt <span class="pl-c1">test</span></pre></div>
+
+<p>To do some in-browser testing do:</p>
+
+<div class="highlight highlight-source-shell"><pre>grunt serve</pre></div>
+
+<p>and navigate to <code>http://localhost:9000/test/</code></p>
+
+<p>To build the library do:</p>
+
+<div class="highlight highlight-source-shell"><pre>grunt</pre></div>
+
+<p>The output is written to <code>dist/geotiff.js</code> and <code>dist/geotiff.min.js</code>.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>geotiff.js works with both browserify style <code>require</code> and the global variable
+<code>GeoTIFF</code>:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> GeoTIFF <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>geotiff.js<span class="pl-pds">"</span></span>);</pre></div>
+
+<p>or:</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>geotiff.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1">  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(GeoTIFF);</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<p>To actually open a GeoTIFF image use the <code>parse</code> function. It works with both 
+strings and <code>ArrayBuffer</code> and nodes <code>Buffer</code>:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> xhr <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">XMLHttpRequest</span>();
+<span class="pl-smi">xhr</span>.<span class="pl-c1">open</span>(<span class="pl-s"><span class="pl-pds">'</span>GET<span class="pl-pds">'</span></span>, url, <span class="pl-c1">true</span>);
+<span class="pl-smi">xhr</span>.<span class="pl-smi">responseType</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>arraybuffer<span class="pl-pds">'</span></span>;
+<span class="pl-c1">xhr</span>.<span class="pl-en">onload</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+  <span class="pl-k">var</span> tiff <span class="pl-k">=</span> <span class="pl-smi">GeoTIFF</span>.<span class="pl-c1">parse</span>(<span class="pl-v">this</span>.<span class="pl-smi">response</span>);
+  <span class="pl-c">// ...</span>
+}
+<span class="pl-smi">xhr</span>.<span class="pl-c1">send</span>();</pre></div>
+
+<p>The same for node:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> GeoTIFF <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>geotiff<span class="pl-pds">"</span></span>);
+<span class="pl-k">var</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>fs<span class="pl-pds">"</span></span>);
+
+<span class="pl-smi">fs</span>.<span class="pl-en">readFile</span>(path, <span class="pl-k">function</span>(<span class="pl-smi">err</span>, <span class="pl-smi">data</span>) {
+  <span class="pl-k">if</span> (err) <span class="pl-k">throw</span> err;
+  <span class="pl-k">var</span> tiff <span class="pl-k">=</span> <span class="pl-smi">GeoTIFF</span>.<span class="pl-c1">parse</span>(data);
+  <span class="pl-c">// ...</span>
+});
+</pre></div>
+
+<p>Each TIFF file can be comprised of multiple "subfiles", containing the actual
+raster data. To get the actual images, use the <code>getImage</code> method:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> image <span class="pl-k">=</span> <span class="pl-smi">tiff</span>.<span class="pl-en">getImage</span>(); <span class="pl-c">// or use .getImage(n) where n is between 0 and</span>
+                             <span class="pl-c">// tiff.getImageCount()</span>
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">image</span>.<span class="pl-en">getWidth</span>(), <span class="pl-smi">image</span>.<span class="pl-en">getHeight</span>(), <span class="pl-smi">image</span>.<span class="pl-en">getSamplesPerPixel</span>());</pre></div>
+
+<p>To actually read raster data the <code>readRasters</code> method does the job. It returns
+an <code>Array</code> of <code>TypedArrays</code> for each of the requested samples of the requested
+region:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> rasterWindow <span class="pl-k">=</span> [<span class="pl-c1">50</span>, <span class="pl-c1">50</span>, <span class="pl-c1">100</span>, <span class="pl-c1">100</span>]; <span class="pl-c">// left, top, right, bottom</span>
+<span class="pl-k">var</span> samples <span class="pl-k">=</span> [<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>];
+<span class="pl-k">var</span> rasters <span class="pl-k">=</span> <span class="pl-smi">image</span>.<span class="pl-en">readRasters</span>(rasterWindow, samples);
+
+<span class="pl-c">// to read all the complete rasters </span>
+<span class="pl-c">// var rasters = image.readRasters();</span>
+
+<span class="pl-k">for</span> (<span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> <span class="pl-smi">rasters</span>.<span class="pl-c1">length</span>; <span class="pl-k">++</span>i) {
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(rasters[i]);
+}</pre></div>
+
+<p>To read TIFF or geo-spatial metadata, the methods <code>.getFileDirectory()</code> and
+<code>.getGeoKeys()</code> provide the data:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">image</span>.<span class="pl-en">getFileDirectory</span>(), <span class="pl-smi">image</span>.<span class="pl-en">getGeoKeys</span>());</pre></div>
+
+<h2>
+<a id="what-to-do-with-the-data" class="anchor" href="#what-to-do-with-the-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>What to do with the data?</h2>
+
+<p>There is a nice HTML 5/WebGL based rendering library called
+<a href="https://github.com/santilland/plotty">plotty</a>, that allows for some really nice
+on the fly rendering of the data contained in a GeoTIFF.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>plot<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1">  <span class="pl-c">// ...</span></span>
+<span class="pl-s1">  <span class="pl-k">var</span> tiff <span class="pl-k">=</span> <span class="pl-smi">GeoTIFF</span>.<span class="pl-c1">parse</span>(data);</span>
+<span class="pl-s1">  <span class="pl-k">var</span> image <span class="pl-k">=</span> <span class="pl-smi">tiff</span>.<span class="pl-en">getImage</span>();</span>
+<span class="pl-s1">  <span class="pl-k">var</span> raster <span class="pl-k">=</span> <span class="pl-smi">image</span>.<span class="pl-en">readRasters</span>()[<span class="pl-c1">0</span>];</span>
+<span class="pl-s1">  <span class="pl-k">var</span> canvas <span class="pl-k">=</span> <span class="pl-smi">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>plot<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">  <span class="pl-k">var</span> plot <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">plotty.plot</span>(</span>
+<span class="pl-s1">    canvas, raster, <span class="pl-smi">image</span>.<span class="pl-en">getWidth</span>(), <span class="pl-smi">image</span>.<span class="pl-en">getHeight</span>(),</span>
+<span class="pl-s1">    [<span class="pl-c1">0</span>, <span class="pl-c1">256</span>], <span class="pl-s"><span class="pl-pds">"</span>viridis<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">  );</span>
+<span class="pl-s1">  <span class="pl-smi">plot</span>.<span class="pl-en">render</span>();</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Implementation of various compression methods, like <code>Deflate</code>, <code>LZW</code> or
+<code>Packbits</code>
+</li>
+<li>Automatic reading of RGB(A) data</li>
+<li>Automatic reading of "Overviews", i.e: subfiles with reduced resolution</li>
+<li>Better support for geokeys</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Geotiff.js maintained by <a href="https://github.com/constantinius">constantinius</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
